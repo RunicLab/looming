@@ -4,7 +4,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query"
 import { RecentPost } from "./components/post"
-import { client } from "./lib/client"
+import { client } from "@/lib/client"
 
 export default async function Home() {
   const res = await client.post.recent.$get()
