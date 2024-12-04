@@ -29,7 +29,6 @@ export default function page() {
         }
     }, [data])
 
-
     const debouncedCheckUsername = debounce(async (username: string) => {
         try {
             setLoading(true);
@@ -77,12 +76,22 @@ export default function page() {
         }
     }
 
+    if (isLoading) {
+        return (
+            <div className="w-full flex flex-col flex-1 items-center justify-center relative">
+                <BackgroundPattern className="absolute inset-0 left-1/2 z-0 -translate-x-1/2 opacity-75" />
+                <Loader size="20" className='animate-spin' />
+            </div>
+        )
+    }
 
     if (data && data.username) {
         return (
-            <div>
-                <h1>Welcome, {data.username}!</h1>
-                <button onClick={() => router.push('/dashboard')}>Dashboard</button>
+            <div className="w-full flex flex-col flex-1 items-center justify-center relative">
+                <BackgroundPattern className="absolute inset-0 left-1/2 z-0 -translate-x-1/2 opacity-75" />
+                <div className='z-10'>
+                    <h1>Welcome, {data.username}!</h1>
+                </div>
             </div>
         )
     }
@@ -95,7 +104,9 @@ export default function page() {
 
     return (
         <div className="w-full flex flex-col flex-1 items-center justify-center relative">
-            <section className="flex-col flex gap-1.5 lg:gap-3 p-3 lg:p-4 w-5/6 md:w-2/3 lg:w-1/3  mx-auto">
+            <BackgroundPattern className="absolute inset-0 left-1/2 z-0 -translate-x-1/2 opacity-75" />
+
+            <section className="flex-col flex gap-1.5 lg:gap-3 p-3 lg:p-4 w-5/6 md:w-2/3 lg:w-1/3  mx-auto z-10">
                 <p className="text-lg lg:text-2xl/none -tracking-wider font-bold">Choose a username for your page</p>
                 <p className="text-sm font-normal">add a unique username.</p>
 
@@ -134,38 +145,6 @@ export default function page() {
         </div>
     )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
