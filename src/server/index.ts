@@ -1,27 +1,37 @@
 import { Hono } from "hono"
 import { cors } from "hono/cors"
 import { handle } from "hono/vercel"
-import { postRouter } from "./routers/post-router"
+import { auth, AuthType } from "@/lib/auth/better-auth"
 
-const app = new Hono().basePath("/api").use(cors())
 
-/**
- * This is the primary router for your server.
- *
- * All routers added in /server/routers should be manually added here.
- */
-const appRouter = app.route("/post", postRouter)
+const api = new Hono<{
+    Variables: {
+        user: AuthType["$Infer"]["Session"]["user"] | null;
+        session: AuthType["$Infer"]["Session"]["session"] | null;
+    }
+}>().basePath('/api').use(cors())
+api.on(["POST", "GET"], "/auth/**", (c) => {
+    return auth.handler(c.req.raw);
+});
 
-// The handler Next.js uses to answer API requests
-export const httpHandler = handle(app)
+api.get("/health", async (c) => {
+    if (c.get("user")) {
+        return c.json({ message: `pong ${c.get("user")?.name}` })
+    }
+    return c.json({ message: "pong" });
+})
 
-/**
- * (Optional)
- * Exporting our API here for easy deployment
- *
- * Run `npm run deploy` for one-click API deployment to Cloudflare's edge network
- */
-export default app
+const appRouter = api
 
-// export type definition of API
+appRouter.all("*", (c) => {
+    console.log(`[404] Request raw: ${JSON.stringify(c.req.raw)}`);
+    return c.json({
+        error: `Route not found ${c.get("user")?.name}`,
+        path: c.req.path,
+        method: c.req.method
+    }, 404);
+});
+
+export const httpHandler = handle(api)
+export default api
 export type AppType = typeof appRouter

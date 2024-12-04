@@ -2,6 +2,7 @@ import { CONFIG } from "@/utils/config";
 import { db } from "@/lib/db";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { username } from "better-auth/plugins"
 
 export const auth = betterAuth({
     database: prismaAdapter(db, {
@@ -25,6 +26,9 @@ export const auth = betterAuth({
             enabled: true
         }
     },
+    plugins: [
+        username()
+    ]
 })
 
 export type AuthType = typeof auth
