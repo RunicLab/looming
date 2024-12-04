@@ -2,6 +2,7 @@ import { Hono } from "hono"
 import { cors } from "hono/cors"
 import { handle } from "hono/vercel"
 import { auth, AuthType } from "@/lib/auth/better-auth"
+import { userRouter } from "./routers/user-router"
 
 
 const api = new Hono<{
@@ -22,6 +23,7 @@ api.get("/health", async (c) => {
 })
 
 const appRouter = api
+    .route("/user", userRouter)
 
 appRouter.all("*", (c) => {
     console.log(`[404] Request raw: ${JSON.stringify(c.req.raw)}`);

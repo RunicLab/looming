@@ -16,10 +16,9 @@ import { useRouter } from 'next/navigation';
 export default function Page() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-
-    const route = null
 
     const router = useRouter()
 
@@ -31,15 +30,17 @@ export default function Page() {
             return;
         }
 
-        await authClient.signIn.email({
+        await authClient.signUp.email({
             email,
-            password
+            password,
+            name
+
         }, {
-            onRequest: () => {
+            onRequest: (ctx) => {
                 setIsLoading(true);
             },
             onSuccess: () => {
-                router.push(route || "/dashboard")
+                router.push("/welcome")
                 toast.success("Successfully signed in!");
             },
             onError: (ctx) => {
@@ -66,30 +67,21 @@ export default function Page() {
                 toast.error(ctx.error.message || "Something went wrong");
             }
         })
-        //await authClient.oneTap()
         setIsGoogleLoading(false);
-    };
-
-    const handleForgotPassword = () => {
-        if (!email) {
-            toast.error("Please enter your email first");
-            return;
-        }
-        console.log("Will route you to forgot password page")
     };
 
     return (
         <div className="w-full flex flex-col flex-1 items-center justify-center ">
             <Card className="w-full max-w-md p-2 shadow-lg">
                 <CardHeader className="space-y-1 text-center">
-                    <CardTitle className="text-xl">Sign in to looming</CardTitle>
+                    <CardTitle className="text-xl">Create your account</CardTitle>
                     <CardDescription>
-                        Welcome back! Please signin to continue
+                        Welcome to loomi.ng! Please signup to continue
                     </CardDescription>
                 </CardHeader>
 
                 <CardContent className="space-y-4">
-                    {/* Google Sign In */}
+                    {/* Google Sign In  */}
                     <Button
                         variant="outline"
                         className="w-full py-5 relative group flex items-center gap-2"
@@ -116,6 +108,20 @@ export default function Page() {
                     {/* Email Sign In Form */}
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-2">
+                            <Label htmlFor="email">Full Name</Label>
+                            <Input
+                                id="name"
+                                type="text"
+                                placeholder=""
+                                className="w-full px-3 py-5"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                disabled={isLoading || isGoogleLoading}
+                                required
+                            />
+                        </div>
+
+                        <div className="space-y-2">
                             <Label htmlFor="email">Email address</Label>
                             <Input
                                 id="email"
@@ -132,15 +138,6 @@ export default function Page() {
                         <div className="space-y-2">
                             <div className="flex items-center justify-between">
                                 <Label htmlFor="password">Password</Label>
-                                <Button
-                                    type="button"
-                                    variant="link"
-                                    className="px-0 text-sm text-gray-600 hover:text-gray-900"
-                                    onClick={handleForgotPassword}
-                                    disabled={isLoading || isGoogleLoading}
-                                >
-                                    Forgot password?
-                                </Button>
                             </div>
                             <Input
                                 id="password"
@@ -161,23 +158,24 @@ export default function Page() {
                             {isLoading ? (
                                 <Loader2 className="size-5 animate-spin mr-2" />
                             ) : null}
-                            Sign in
+                            Sign Up!
                         </Button>
                     </form>
                 </CardContent>
 
                 <CardFooter>
                     <p className="text-sm text-center text-gray-600 w-full">
-                        Do not have an account?{' '}
+                        Already have an account?{' '}
                         <Button
                             variant="link"
                             className="px-0 text-sm text-gray-900 hover:text-gray-900"
                             disabled={isLoading || isGoogleLoading}
                             onClick={() => {
-                                router.push("/sign-up")
+                                router.push("/sign-in")
                             }}
                         >
-                            Sign up
+
+                            Sign in
                         </Button>
                     </p>
                 </CardFooter>
