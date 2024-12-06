@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Inbox, Search, Sparkles, Trash, type LucideIcon } from "lucide-react"
+import { Home, Inbox, Save, Search, Sparkles, Trash, type LucideIcon } from "lucide-react"
 
 import {
     SidebarGroup,
@@ -21,13 +21,17 @@ export function DashNavMain() {
             title: "Unsorted",
             url: "#",
             icon: Inbox,
-            badge: "10",
         },
+        {
+            title: "Saved",
+            url: "#",
+            icon: Save,
+        },
+
         {
             title: "Trash can",
             url: "#",
             icon: Trash,
-            badge: "10",
         },
 
     ]

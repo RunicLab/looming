@@ -10,19 +10,19 @@ export default async function Home() {
                 <div className='relative mx-auto text-center flex flex-col items-center gap-10'>
                     <div>
                         <Heading>
-                            <span>Share your favourite bookmarks</span>
+                            <span>Curate Your Digital Library</span>
                             <br />
                             <span className='relative bg-gradient-to-r  from-brand-700 to-brand-800 text-transparent bg-clip-text'>
-                                Organize, Explore, and Rediscover Your Favorite Links!
+                                Bookmark Brilliance, Organized & Shared
                             </span>
                         </Heading>
                     </div>
                     <p className='text-base/7 text-gray-600 max-w-prose text-center text-pretty'>
-                        Ping Pong is the easiest way to monitor your SaaS, Get instant notifications for {" "}
-                        <span className='font-semibold text-gray-700 '>sales, new users, or any other event</span>{" "}
-                        sent directly to your favorite platforms
+                        Transform how you collect, organize, and share your favorite web discoveries.
+                        Create meaningful collections and never lose that {" "}
+                        <span className='font-semibold inline-flex text-gray-700'> perfect link again</span>
                     </p>
-                    <ul className='space-y-2 text-base/7 text-gray-600 text-left flex flex-col items-start'>
+                    <ul className='space-y-2 text-base/7 text-gray-600 text-left flexx flex-col items-start hidden'>
                         {[
                             "Real-time Platform alerts for critical events",
                             "Built-in analytics and reporting",
