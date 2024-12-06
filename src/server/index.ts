@@ -3,6 +3,7 @@ import { cors } from "hono/cors"
 import { handle } from "hono/vercel"
 import { auth, AuthType } from "@/lib/auth/better-auth"
 import { userRouter } from "./routers/user-router"
+import { boxRouter } from "./routers/box-router"
 
 
 const api = new Hono<{
@@ -23,6 +24,7 @@ api.get("/health", async (c) => {
 })
 
 const appRouter = api
+    .route("/box", boxRouter)
     .route("/user", userRouter)
 
 appRouter.all("*", (c) => {

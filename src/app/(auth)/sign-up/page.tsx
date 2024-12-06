@@ -40,7 +40,7 @@ export default function Page() {
                 setIsLoading(true);
             },
             onSuccess: () => {
-                router.push("/welcome")
+                router.push("/dashboard")
                 toast.success("Successfully signed in!");
             },
             onError: (ctx) => {
@@ -61,6 +61,7 @@ export default function Page() {
             },
             onSuccess: () => {
                 toast.success("Successfully signed in with Google!");
+                //router.push("/dashboard")
             },
             onError: (ctx) => {
                 console.log(ctx.error)

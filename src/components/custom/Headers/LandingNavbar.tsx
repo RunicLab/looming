@@ -1,14 +1,14 @@
 
 "use client"
 import React from 'react'
-import { MaxWidthWrapper } from './max-width-wrapper'
+import { MaxWidthWrapper } from '@/components/custom/max-width-wrapper'
 import Link from 'next/link'
 import { authClient } from '@/lib/auth/better-auth-client'
-import { Button, buttonVariants } from '../ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { ArrowRight } from 'lucide-react'
 import { useAuthSession } from '@/hooks/use-auth-session'
-import { Skeleton } from '../ui/skeleton'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function Navbar() {
 
@@ -59,7 +59,7 @@ export default function Navbar() {
                                         Pricing
                                     </Link>
 
-                                    <Link href={"/sign-in"} className={buttonVariants({
+                                    <Link href={"/sign-up"} className={buttonVariants({
                                         size: "sm",
                                         className: "hidden sm:flex items-center gap-1"
                                     })}>

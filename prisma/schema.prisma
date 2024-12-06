@@ -23,9 +23,28 @@ model User {
     sessions      Session[]
     accounts      Account[]
 
+    apiKey String @unique @default(cuid())
+    boxes  Box[]
+
     @@unique([email])
     @@unique([username])
     @@map("user")
+}
+
+model Box {
+    id     String @id
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    name        String
+    description String?
+    private     Boolean @default(false)
+    color       Int
+
+    createdAt DateTime
+    updatedAt DateTime
+
+    @@map("box")
 }
 
 model Session {

@@ -1,6 +1,6 @@
 "use client"
 
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { CheckCircleIcon, Loader, LucideProps } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -8,26 +8,71 @@ import { client } from "@/lib/client"
 import { debounce } from 'lodash';
 import { Button } from '@/components/ui/button'
 
-export default function page() {
+export default function Page() {
     const router = useRouter()
     const [loading, setLoading] = useState(false);
     const [usernameError, setUsernameError] = useState('');
     const [available, setAvailable] = useState<boolean | null>(null);
     const [username, setUsername] = useState<string>("")
+    const queryclient = useQueryClient()
+    const [redirecting, setRedirecting] = useState(false);
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, isFetched } = useQuery({
         queryFn: async () => {
             const res = await client.user.getUser.$get()
             return await res.json()
         },
         queryKey: ["get-user-data"],
+        enabled: !redirecting,
     })
 
     useEffect(() => {
-        if (data && data.username) {
-            router.push('/dashboard')
+        if (isLoading || redirecting) return;
+
+        if (!data) {
+            setRedirecting(true);
+            router.replace('/sign-in');
+            return;
         }
-    }, [data])
+
+        if (data.username) {
+            setRedirecting(true);
+            router.replace('/dashboard');
+            return;
+        }
+    }, [data, isLoading, router, redirecting]);
+
+
+    const updateUserName = async () => {
+        try {
+            setLoading(true);
+            if (!username) {
+                setUsernameError('Username is required');
+                return;
+            }
+
+            await client.user.updateUsername.$post({ username });
+
+            // Add a slight delay to ensure backend updates are propagated
+            await new Promise((resolve) => setTimeout(resolve, 200));
+
+            const res = await client.user.getUser.$get()
+            const data = await res.json()
+
+
+            if (data && data.username) {
+                // Redirect only after confirming username exists
+                router.replace('/');
+            } else {
+                setUsernameError('Username update failed. Please try again.');
+            }
+
+        } catch (error) {
+            setUsernameError('Failed to update username');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const debouncedCheckUsername = debounce(async (username: string) => {
         try {
@@ -58,23 +103,6 @@ export default function page() {
             setLoading(false);
         }
     }, 500);
-
-    const updateUserName = async () => {
-        try {
-            setLoading(true);
-            if (!username) {
-                throw new Error('Username is required');
-            }
-            const response = await client.user.updateUsername.$post({ username });
-            const data = await response.json();
-            if (data.username) {
-                router.push('/dashboard');
-            }
-        } catch (error) {
-        } finally {
-            setLoading(false);
-        }
-    }
 
     if (isLoading) {
         return (
