@@ -22,13 +22,27 @@ model User {
     username      String?
     sessions      Session[]
     accounts      Account[]
+    apiKey        String    @unique @default(cuid())
 
-    apiKey String @unique @default(cuid())
-    boxes  Box[]
+    unsorted Bookmark[]
+
+    boxes Box[]
 
     @@unique([email])
     @@unique([username])
     @@map("user")
+}
+
+model Bookmark {
+    id     String @id @default(cuid())
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    postId String
+    domain String
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Box {
