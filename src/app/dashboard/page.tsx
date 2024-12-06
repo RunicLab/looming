@@ -2,8 +2,6 @@ import { db } from '@/lib/db'
 import { auth } from "@/lib/auth/better-auth"
 import { redirect } from 'next/navigation'
 import { headers } from "next/headers"
-import React from 'react'
-
 export default async function Page() {
 
     const session = await auth.api.getSession({
@@ -23,7 +21,6 @@ export default async function Page() {
     }
 
     return (
-        <main>
-        </main>
+        <main></main>
     )
 }

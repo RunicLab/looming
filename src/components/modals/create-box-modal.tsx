@@ -13,6 +13,7 @@ import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { Textarea } from '../ui/textarea'
+import { toast } from 'sonner'
 
 interface Props extends PropsWithChildren {
     containerClassName?: string
@@ -46,14 +47,19 @@ export default function CreateBoxModal({ containerClassName, children }: Props) 
 
     const { isPending, mutate: createBox } = useMutation({
         mutationFn: async (box: BoxCategoryForm) => {
-            // const response = await client.box.createbox.$post(box)
-            // return await response.json()
+            const response = await client.box.createBox.$post(box)
+            return await response.json()
         },
         onSuccess: () => {
             reset()
-            queryClient.invalidateQueries({ queryKey: ["user-box"] })
+            toast.success("Successfully created box category")
+            queryClient.invalidateQueries({ queryKey: ["get-user-boxes"] })
             setIsOpen(false)
         },
+        onError: (ctx) => {
+            console.log(ctx.message)
+            toast.error(ctx.message || "Something went horribly wrong");
+        }
     })
 
     const { reset, handleSubmit, formState: { errors }, watch, setValue, register } = useForm<BoxCategoryForm>({
