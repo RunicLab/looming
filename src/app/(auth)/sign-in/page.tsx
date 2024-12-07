@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { Icons } from '@/components/icons';
 import { authClient } from '@/lib/auth/better-auth-client';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Page() {
     const [email, setEmail] = useState('');
@@ -19,9 +19,12 @@ export default function Page() {
     const [isLoading, setIsLoading] = useState(false);
     const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
-    const route = null
-
     const router = useRouter()
+    //const searchParams = useSearchParams()
+
+    // const redirectTo = searchParams.get('redirectTo')
+    //     ? decodeURIComponent(searchParams.get('redirectTo') || "")
+    //     : "/dashboard"
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -39,7 +42,8 @@ export default function Page() {
                 setIsLoading(true);
             },
             onSuccess: () => {
-                router.push(route || "/dashboard")
+                //router.push(redirectTo)
+                router.push("/dashboard")
                 toast.success("Successfully signed in!");
             },
             onError: (ctx) => {
