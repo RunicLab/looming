@@ -13,8 +13,14 @@ import {
 import { DashNavMain } from "./dash-nav-main"
 import { NavUser } from "./dash-nav-user"
 import { NavBoxesSection } from "./dash-nav-boxes"
+import { useAuthSession } from "@/hooks/use-auth-session"
+import { NavProjectsSkeleton } from "./dash-nav-skeleton"
+import SidebarUserSignin from "./dash-nav-user-sign-in"
 
 export function DashboardSidebar() {
+
+    const { user, isLoading } = useAuthSession()
+
     return (
         <Sidebar variant="inset" className="">
             <SidebarHeader>
@@ -35,8 +41,21 @@ export function DashboardSidebar() {
                 </SidebarMenu>
             </SidebarHeader>
             <SidebarContent className="p-1">
-                <DashNavMain />
-                <NavBoxesSection />
+                {isLoading ?
+                    <NavProjectsSkeleton />
+                    : (
+                        user ? ( // only is signed in
+                            <>
+                                <DashNavMain />
+                                <NavBoxesSection />
+                            </>
+                        ) : (
+                            <>
+                                <SidebarUserSignin />
+                            </>
+                        )
+                    )
+                }
             </SidebarContent>
             <SidebarFooter>
                 <NavUser />

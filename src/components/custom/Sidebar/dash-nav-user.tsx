@@ -57,6 +57,8 @@ export function NavUser() {
         )
     }
 
+    if (!user) return null
+
     return (
         <SidebarMenu>
             <SidebarMenuItem>
