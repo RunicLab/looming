@@ -31,6 +31,7 @@ import CreateBoxModal from "@/components/modals/create-box-modal"
 import { useQuery } from "@tanstack/react-query"
 import { client } from "@/lib/client"
 import { Skeleton } from "@/components/ui/skeleton"
+import Link from "next/link"
 
 export function NavBoxesSection() {
     const { isMobile } = useSidebar()
@@ -84,7 +85,7 @@ export function NavBoxesSection() {
                     boxes?.map((item) => (
                         <SidebarMenuItem key={item.id} className="">
                             <SidebarMenuButton asChild>
-                                <a href={`/box/${item.id}`}>
+                                <Link href={`/box/${item.id}`}>
                                     <Folder
                                         style={{
                                             color: item.color ? `#${item.color.toString(16).padStart(6, "0")}` : "black"
@@ -94,7 +95,7 @@ export function NavBoxesSection() {
                                         }
                                     />
                                     <span>{item.name}</span>
-                                </a>
+                                </Link>
                             </SidebarMenuButton>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
