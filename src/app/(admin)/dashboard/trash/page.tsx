@@ -4,7 +4,7 @@ import React from 'react'
 
 export default function Page() {
     return (
-        <DashboardLayoutWrapper title='Saved Collections'>
+        <DashboardLayoutWrapper title='Trash can'>
             <main></main>
         </DashboardLayoutWrapper>
     )

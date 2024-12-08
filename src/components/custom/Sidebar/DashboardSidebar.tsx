@@ -16,6 +16,7 @@ import { NavBoxesSection } from "./dash-nav-boxes"
 import { useAuthSession } from "@/hooks/use-auth-session"
 import { NavProjectsSkeleton } from "./dash-nav-skeleton"
 import SidebarUserSignin from "./dash-nav-user-sign-in"
+import { SearchForm } from "./dash-nav-search"
 
 export function DashboardSidebar() {
 
@@ -38,6 +39,7 @@ export function DashboardSidebar() {
                             </a>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
+                    <SearchForm />
                 </SidebarMenu>
             </SidebarHeader>
             <SidebarContent className="p-1">

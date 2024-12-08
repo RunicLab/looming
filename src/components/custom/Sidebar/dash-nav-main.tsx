@@ -1,37 +1,42 @@
 "use client"
-
-import { Home, Inbox, Save, Search, Sparkles, Trash, type LucideIcon } from "lucide-react"
-
+import { Home, Inbox, Save, Trash } from "lucide-react"
 import {
     SidebarGroup,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { usePathname } from "next/navigation"
+import Link from "next/link"
 
 export function DashNavMain() {
+    const pathname = usePathname()
+
     const items: any = [
         {
             title: "Home",
-            url: "#",
+            url: "/dashboard",
             icon: Home,
-            isActive: true,
+            isActive: pathname === "/dashboard"
         },
         {
             title: "Unsorted",
-            url: "#",
+            url: "/dashboard/unsorted",
             icon: Inbox,
+            isActive: pathname === "/dashboard/unsorted"
         },
         {
-            title: "Saved",
-            url: "#",
+            title: "Saved boxes",
+            url: "/dashboard/saved",
             icon: Save,
+            isActive: pathname === "/dashboard/saved"
         },
 
         {
             title: "Trash can",
-            url: "#",
+            url: "/dashboard/trash",
             icon: Trash,
+            isActive: pathname === "/dashboard/trash"
         },
 
     ]
@@ -41,10 +46,10 @@ export function DashNavMain() {
                 {items.map((item: any) => (
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton asChild isActive={item.isActive}>
-                            <a href={item.url}>
+                            <Link href={item.url}>
                                 <item.icon />
                                 <span>{item.title}</span>
-                            </a>
+                            </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 ))}

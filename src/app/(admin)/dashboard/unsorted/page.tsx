@@ -1,9 +1,11 @@
 
+import DashboardLayoutWrapper from '@/components/custom/Dash/DashLayout'
 import React from 'react'
 
 export default function Page() {
     return (
-        <div>Page</div>
+        <DashboardLayoutWrapper title='Unsorted'>
+            <main></main>
+        </DashboardLayoutWrapper>
     )
 }
-

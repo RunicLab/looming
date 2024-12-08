@@ -1,12 +1,9 @@
-
 import DashboardLayoutWrapper from '@/components/custom/Dash/DashLayout'
-import React from 'react'
+export default async function Page() {
 
-export default function Page() {
     return (
-        <DashboardLayoutWrapper title='Saved Collections'>
+        <DashboardLayoutWrapper title='Dashboard'>
             <main></main>
         </DashboardLayoutWrapper>
     )
 }
-

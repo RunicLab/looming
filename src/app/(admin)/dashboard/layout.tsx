@@ -1,8 +1,10 @@
+import { ReactNode } from "react"
 import { db } from '@/lib/db'
 import { auth } from "@/lib/auth/better-auth"
 import { redirect } from 'next/navigation'
 import { headers } from "next/headers"
-export default async function Page() {
+
+const Layout = async ({ children }: { children: ReactNode }) => {
 
     const session = await auth.api.getSession({
         headers: headers(),
@@ -20,7 +22,12 @@ export default async function Page() {
         redirect("/sign-in")
     }
 
+
     return (
-        <main></main>
+        <>
+            {children}
+        </>
     )
 }
+
+export default Layout
