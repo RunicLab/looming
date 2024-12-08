@@ -24,6 +24,21 @@ export const boxRouter = router({
         return c.json(box);
     }),
 
+    deleteBox: privateProcedure.input(z.object({
+        boxId: z.string(),
+    })).mutation(async ({ input, c, ctx }) => {
+
+        const box = await db.box.delete({
+            where: {
+                userId: ctx.user.id,
+                id: input.boxId,
+            }
+        });
+
+        return c.json(box);
+    }),
+
+
     getUserBox: privateProcedure.query(
         async ({ c, ctx }) => {
             const boxes = await db.box.findMany({

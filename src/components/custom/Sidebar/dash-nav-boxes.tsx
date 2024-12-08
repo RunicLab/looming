@@ -32,6 +32,7 @@ import { useQuery } from "@tanstack/react-query"
 import { client } from "@/lib/client"
 import { Skeleton } from "@/components/ui/skeleton"
 import Link from "next/link"
+import DeleteBoxModal from "@/components/modals/delete-box-modal"
 
 export function NavBoxesSection() {
     const { isMobile } = useSidebar()
@@ -122,10 +123,12 @@ export function NavBoxesSection() {
                                         <span>Make public</span>
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuItem>
-                                        <Trash2 className="text-muted-foreground" />
-                                        <span>Delete Box</span>
-                                    </DropdownMenuItem>
+                                    <DeleteBoxModal boxId={item.id}>
+                                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                            <Trash2 className="text-muted-foreground" />
+                                            <span>Delete Box</span>
+                                        </DropdownMenuItem>
+                                    </DeleteBoxModal>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </SidebarMenuItem>
