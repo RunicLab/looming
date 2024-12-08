@@ -24,9 +24,13 @@ model User {
     accounts      Account[]
     apiKey        String    @unique @default(cuid())
 
+    boxes Box[]
+
     // Original unsorted bookmarks
     unsorted Bookmark[]
-    boxes    Box[]
+
+    savedCollections Box[]      @relation("UserSavedCollections")
+    trashcan         Bookmark[] @relation("UserTrashcan")
 
     @@unique([email])
     @@unique([username])
@@ -38,11 +42,17 @@ model Bookmark {
     userId String
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    postId String
-    domain String
+    postId   String
+    platform String // Add this field to specify "twitter" or "reddit"
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    box   Box?    @relation(fields: [boxId], references: [id])
+    boxId String?
+
+    trashUser   User?   @relation("UserTrashcan", fields: [trashUserId], references: [id])
+    trashUserId String?
 }
 
 model Box {
@@ -52,11 +62,14 @@ model Box {
 
     name        String
     description String?
-    isPublic    Boolean @default(false)
+    isPublic    Boolean    @default(false)
     color       Int
+    bookmarks   Bookmark[]
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    savedInUsers User[] @relation("UserSavedCollections")
 
     @@map("box")
 }
