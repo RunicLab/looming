@@ -11,6 +11,7 @@ const getBaseUrl = () => {
         return ""
     }
 
+    //trigger redeploy
     return CONFIG.URL
 }
 
